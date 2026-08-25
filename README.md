@@ -6,7 +6,7 @@ Feed: https://career.altee.com/xml/clareo
 
 ## Build the zip for upload
 
-From the parent folder (`WordPress`), in PowerShell:
+From the parent folder (`WP-Clareo-Altee-Plugin`), in PowerShell:
 
 ```powershell
 Remove-Item -Force "clareo-altee-sync.zip" -ErrorAction SilentlyContinue
