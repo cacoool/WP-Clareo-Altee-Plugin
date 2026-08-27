@@ -9,7 +9,7 @@ Feed: https://career.altee.com/xml/clareo
 From the parent folder (`WP-Clareo-Altee-Plugin`), in PowerShell:
 
 ```powershell
-Remove-Item -Force "clareo-altee-sync.zip" -ErrorAction SilentlyContinue
+Remove-Item -Force "clareo-altee-sync.zip"
 tar -a -c -f "clareo-altee-sync.zip" "clareo-altee-sync"
 ```
 
