@@ -418,7 +418,7 @@ function clareo_altee_map_job_type( $type ) {
 		'temporary'  => 'Temporaire',
 		'full-time'  => 'Temps plein',
 		'part-time'  => 'Temps partiel',
-		'contractor' => 'Contrateur',
+		'contractor' => 'Contractuel',
 	);
 	if ( isset( $map[ $key ] ) ) {
 		return $map[ $key ];
