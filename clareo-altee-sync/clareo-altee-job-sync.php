@@ -13,7 +13,7 @@ define( 'CLAREO_ALTEE_META_REF', '_altee_referencenumber' );
 define( 'CLAREO_ALTEE_META_URL', '_altee_apply_url' );
 define( 'CLAREO_ALTEE_CRON', 'clareo_altee_job_sync' );
 define( 'CLAREO_ALTEE_OPTION', 'clareo_altee_last_sync' );
-define( 'CLAREO_ALTEE_TEST_FIRST_ONLY', true );
+define( 'CLAREO_ALTEE_TEST_FIRST_ONLY', false );
 
 register_activation_hook( __FILE__, 'clareo_altee_activate' );
 register_deactivation_hook( __FILE__, 'clareo_altee_deactivate' );
