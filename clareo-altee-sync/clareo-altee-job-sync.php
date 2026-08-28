@@ -31,7 +31,7 @@ function clareo_altee_deactivate() {
 add_action( CLAREO_ALTEE_CRON, 'clareo_altee_run_sync' );
 add_action( 'admin_menu', 'clareo_altee_admin_menu', 20 );
 add_action( 'admin_init', 'clareo_altee_handle_manual_sync' );
-add_action( 'awsm_application_form_init', 'clareo_altee_apply_button', -999 );
+add_action( 'init', 'clareo_altee_hook_apply_button', 20 );
 
 function clareo_altee_admin_menu() {
 	$parent = post_type_exists( 'awsm_job_openings' ) ? 'edit.php?post_type=awsm_job_openings' : 'options-general.php';
@@ -90,6 +90,14 @@ function clareo_altee_admin_page() {
 	<?php
 }
 
+function clareo_altee_hook_apply_button() {
+	if ( class_exists( 'AWSM_Job_Openings_Form' ) ) {
+		remove_action( 'awsm_application_form_init', array( AWSM_Job_Openings_Form::init(), 'application_form' ) );
+	}
+	add_action( 'awsm_application_form_init', 'clareo_altee_apply_button' );
+}
+
+
 function clareo_altee_apply_button( $form_attrs ) {
 	$job_id = 0;
 	if ( is_array( $form_attrs ) && isset( $form_attrs['job_id'] ) ) {
@@ -99,15 +107,17 @@ function clareo_altee_apply_button( $form_attrs ) {
 		$job_id = get_the_ID();
 	}
 	$url = get_post_meta( $job_id, CLAREO_ALTEE_META_URL, true );
-	if ( ! is_string( $url ) || $url === '' ) {
+	if ( is_string( $url ) && $url !== '' ) {
+		printf(
+			'<div class="awsm-job-form"><div class="awsm-job-form-inner"><a class="awsm-application-submit-btn" href="%s" target="_blank" rel="noopener noreferrer">%s</a></div></div>',
+			esc_attr( $url ),
+			esc_html__( 'Postuler', 'clareo-altee-job-sync' )
+		);
 		return;
 	}
-	remove_all_actions( 'awsm_application_form_init' );
-	printf(
-		'<div class="awsm-job-form"><div class="awsm-job-form-inner"><a class="awsm-application-submit-btn" href="%s" target="_blank" rel="noopener noreferrer">%s</a></div></div>',
-		esc_attr( $url ),
-		esc_html__( 'Postuler', 'clareo-altee-job-sync' )
-	);
+	if ( class_exists( 'AWSM_Job_Openings_Form' ) ) {
+		AWSM_Job_Openings_Form::init()->application_form( $form_attrs );
+	}
 }
 
 function clareo_altee_run_sync() {
